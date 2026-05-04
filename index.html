@@ -36,15 +36,13 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Centrado vertical absoluto */
-            align-items: center;     /* Centrado horizontal absoluto */
+            justify-content: center;
+            align-items: center;
             padding: 20px;
             text-align: center;
         }
 
-        header {
-            margin-bottom: 25px; /* Espacio entre nombres y tarjeta */
-        }
+        header { margin-bottom: 25px; }
 
         h1 { font-family: 'Great Vibes', cursive; font-size: 3.2rem; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); line-height: 1; }
         .slogan { color: white; font-size: 0.9rem; font-style: italic; margin-top: 10px; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); max-width: 280px; }
@@ -75,7 +73,7 @@
             transition: transform 0.2s;
         }
 
-        .btn:active { transform: scale(0.98); }
+        .btn:disabled { background: #ccc; }
 
         .upload-area {
             border: 1.5px dashed var(--dorado);
@@ -86,9 +84,7 @@
         }
 
         .upload-label { font-size: 0.75rem; font-weight: 600; color: var(--dorado); }
-
         #file-count { font-size: 0.65rem; color: #888; margin-top: 6px; }
-
         .hidden { display: none; }
     </style>
 </head>
@@ -117,16 +113,22 @@
 
             <div id="msgOk" class="hidden">
                 <p style="color: var(--dorado); font-weight: bold; margin-top: 10px; font-size: 1rem;">
-                    ¡Recibido con éxito! ✨
+                    ¡Enviado con éxito! ✨
                 </p>
+                <p style="font-size: 0.7rem; color: #666; margin-top: 5px;">Gracias por compartir este momento.</p>
             </div>
         </div>
     </main>
 
     <script>
+        // --- CONFIGURACIÓN ---
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyqWtVv-YMKTlvMeljDZ5u7OncjJ7QmTQZXjlbP541FnwKU8-1aBVivlOXumRr5Yi0I/exec'; // PEGA AQUÍ TU URL QUE TERMINA EN /exec
+        // ---------------------
+
         const fileInput = document.getElementById('fileInput');
         const fileCount = document.getElementById('file-count');
         const uploadForm = document.getElementById('uploadForm');
+        const btn = document.getElementById('btnSubir');
 
         fileInput.addEventListener('change', () => {
             const num = fileInput.files.length;
@@ -141,53 +143,52 @@
 
         uploadForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (fileInput.files.length === 0) return;
+            const files = fileInput.files;
+            if (files.length === 0) return;
 
-            const btn = document.getElementById('btnSubir');
             btn.disabled = true;
-            btn.innerText = "SUBIENDO...";
+            btn.innerText = "SUBIENDO... (Espera)";
 
-            const formData = new FormData();
-            for (let file of fileInput.files) {
-                formData.append('file', file);
-            }
+            let subidasFinalizadas = 0;
 
-            try {
-                const response = await fetch('/upload', { method: 'POST', body: formData });
-                if (response.ok) {
-                    uploadForm.classList.add('hidden');
-                    document.getElementById('msgOk').classList.remove('hidden');
-                } else {
-                    alert("Error al subir los archivos");
-                    btn.disabled = false;
-                    btn.innerText = "SUBIR AL ÁLBUM";
-                }
-            } catch (err) {
-                alert("Error de conexión con el servidor");
-                btn.disabled = false;
-                btn.innerText = "SUBIR AL ÁLBUM";
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+
+                reader.onload = async function(event) {
+                    const base64 = event.target.result.split(',')[1];
+                    const payload = {
+                        base64: base64,
+                        type: file.type,
+                        name: file.name
+                    };
+
+                    try {
+                        // Enviamos a Google Apps Script
+                        await fetch(scriptURL, {
+                            method: 'POST',
+                            mode: 'no-cors', // Evita problemas de seguridad entre dominios
+                            body: JSON.stringify(payload)
+                        });
+
+                        subidasFinalizadas++;
+
+                        // Si es el último archivo, mostramos el mensaje de éxito
+                        if (subidasFinalizadas === files.length) {
+                            uploadForm.classList.add('hidden');
+                            document.getElementById('msgOk').classList.remove('hidden');
+                        }
+                    } catch (err) {
+                        console.error(err);
+                        alert("Error al subir el archivo: " + file.name);
+                        btn.disabled = false;
+                        btn.innerText = "SUBIR AL ÁLBUM";
+                    }
+                };
+
+                reader.readAsDataURL(file);
             }
         });
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
