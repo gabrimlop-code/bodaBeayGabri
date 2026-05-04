@@ -2,317 +2,175 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boda Bea y Gabri</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>B&G - Álbum</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --blanco: rgba(255, 255, 255, 0.95);
+            --blanco: rgba(255, 255, 255, 0.98);
             --dorado: #b59a5d;
             --oscuro: #2c2c2c;
-            --gris-suave: #f8f9fa;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-        body {
+        body, html {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
             font-family: 'Montserrat', sans-serif;
             color: var(--oscuro);
-            scroll-snap-type: y mandatory;
-            overflow-y: scroll;
         }
 
-        section {
-            min-height: 100vh;
+        .fondo-fijo {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('fondo.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+        }
+
+        main {
+            height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            justify-content: center; /* Centrado vertical absoluto */
+            align-items: center;     /* Centrado horizontal absoluto */
+            padding: 20px;
             text-align: center;
-            padding: 40px 20px;
-            scroll-snap-align: start;
         }
-		.fondo-fijo {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('fondo.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: -1;}
 
+        header {
+            margin-bottom: 25px; /* Espacio entre nombres y tarjeta */
+        }
+
+        h1 { font-family: 'Great Vibes', cursive; font-size: 3.2rem; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); line-height: 1; }
+        .slogan { color: white; font-size: 0.9rem; font-style: italic; margin-top: 10px; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); max-width: 280px; }
+        
         .card {
             background: var(--blanco);
-            padding: 30px;
+            padding: 25px 20px;
             border-radius: 20px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.3);
             width: 100%;
-            max-width: 450px;
-            max-height: 85vh;
-            overflow-y: auto;
+            max-width: 350px;
         }
 
-        h1 { font-family: 'Great Vibes', cursive; font-size: 3.5rem; color: var(--dorado); margin-bottom: 10px; }
-        .portada h1 { color: white; font-size: 5rem; text-shadow: 2px 2px 8px rgba(0,0,0,0.6); }
-
-        h2 {color: white; font-size: 1.1rem; margin-bottom: 20px; font-weight: 400; color: #555; }
-
-	h3 {color: white; font-size: 1.1rem; margin-bottom: 20px; font-weight: 400; }
-
-	h4 { font-family: 'Great Vibes', cursive; font-size: 3.5rem; color: var(--dorado); margin-bottom: 35px; }
-        .portada h4 { color: white; font-size: 5rem; text-shadow: 2px 2px 8px rgba(0,0,0,0.6); }
-
-	h5 { font-family: 'Great Vibes', cursive; font-size: 3.5rem; color: var(--dorado); margin-bottom: 0px; }
-        .portada h5 { color: white; font-size: 5rem; text-shadow: 2px 2px 8px rgba(0,0,0,0.6); }
+        h3 { font-family: 'Great Vibes', cursive; font-size: 2.2rem; color: var(--dorado); margin-bottom: 5px; }
+        p.instruccion { font-size: 0.75rem; color: #666; margin-bottom: 15px; }
 
         .btn {
             background: var(--dorado);
             color: white;
-            padding: 14px 25px;
-            border-radius: 30px;
+            padding: 14px;
+            border-radius: 25px;
             border: none;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            margin: 10px 5px;
-            display: inline-block;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .btn-add {
-            background: white;
-            border: 2px solid var(--dorado);
-            color: var(--dorado);
-            margin-bottom: 20px;
-        }
-
-        .persona-block {
-            background: var(--gris-suave);
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            text-align: left;
-            border-left: 4px solid var(--dorado);
-            position: relative;
-        }
-
-        .btn-eliminar {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: none;
-            border: none;
-            color: #cc0000;
-            cursor: pointer;
             font-size: 0.8rem;
+            font-weight: 600;
+            display: block;
+            width: 100%;
+            cursor: pointer;
+            transition: transform 0.2s;
         }
 
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-family: inherit;
+        .btn:active { transform: scale(0.98); }
+
+        .upload-area {
+            border: 1.5px dashed var(--dorado);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            background: #fdfaf3;
         }
+
+        .upload-label { font-size: 0.75rem; font-weight: 600; color: var(--dorado); }
+
+        #file-count { font-size: 0.65rem; color: #888; margin-top: 6px; }
 
         .hidden { display: none; }
-        
-        #countdown {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            color: white;
-            padding: 15px 30px;
-            border-radius: 50px;
-            margin-top: 30px;
-            border: 1px solid rgba(255,255,255,0.3);
-            font-weight: bold;
-        }
     </style>
 </head>
 <body>
-   <div class="fondo-fijo"></div>
-    <section class="portada">
-        <h5>Bea</h5>
-        <h4>y</h4>
-        <h4>Gabri</h4>
-        <h3>Nos encantaría que formaras parte de este momento tan especial</h3>
-        <h3>02 · Mayo · 2026 | 13:00h</h3>
-        <div id="countdown">Calculando días...</div>
-    </section>
+    <div class="fondo-fijo"></div>
 
-    <section>
+    <main>
+        <header>
+            <h1>Bea y Gabri</h1>
+            <p class="slogan">"Vuestras fotos son nuestro mejor recuerdo"</p>
+        </header>
+
         <div class="card">
-            <h1>Ubicación</h1>
-            <h2>Hacienda la Pintada</h2>
-            <a href="https://www.google.com/maps/place/Hacienda+La+Pintada/@37.2434601,-5.8621314,17z/data=!3m1!4b1!4m6!3m5!1s0xd127a2c78ebf96f:0x641b7d10c66f3559!8m2!3d37.2434601!4d-5.8595565!16s%2Fg%2F11b7zj0g2j?entry=ttu&g_ep=EgoyMDI2MDMwMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn">📍 VER EN GOOGLE MAPS</a>
-        </div>
-    </section>
-
-    <section>
-<div class="card">
-    <h1>Confirmación</h1>
-    <p id="preguntaConfirmacion" style="margin-bottom: 20px;">¿Nos acompañáis en nuestro gran día?</p>
-    
-    <div id="botones-iniciales">
-                <button class="btn" onclick="mostrarFormulario('Si')">SÍ, ASISTIRÉ</button>
-                <button class="btn" style="background:#888" onclick="mostrarFormulario('No')">NO PODRÉ IR</button>
-            </div>
-
-<form id="weddingForm" class="hidden">
-    <input type="hidden" id="formAsiste">
-    
-    <div id="lista-invitados">
-        <div class="persona-block">
-            <p style="font-weight: 600; font-size: 0.9rem; color: var(--dorado); margin-bottom: 5px;">Tu nombre:</p>
-            <input type="text" name="nombre" placeholder="Nombre y Apellidos" required>
+            <h3>Álbum Digital</h3>
+            <p class="instruccion">Sube tus fotos y vídeos del gran día</p>
             
-            <div class="alergias-container">
-                <p style="font-weight: 600; font-size: 0.9rem; color: var(--dorado); margin-top: 10px;">Alergias o Intolerancias:</p>
-                <textarea name="alergias" placeholder="Indica si tienes o escribe 'No'" rows="2" required></textarea>
+            <form id="uploadForm">
+                <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+                    <span class="upload-label">📸 SELECCIONAR MULTIMEDIA</span>
+                    <div id="file-count">Fotos o vídeos (máx. 10 de golpe)</div>
+                    <input type="file" id="fileInput" name="file" multiple accept="image/*,video/*" class="hidden">
+                </div>
+                
+                <button type="submit" id="btnSubir" class="btn">SUBIR AL ÁLBUM</button>
+            </form>
+
+            <div id="msgOk" class="hidden">
+                <p style="color: var(--dorado); font-weight: bold; margin-top: 10px; font-size: 1rem;">
+                    ¡Recibido con éxito! ✨
+                </p>
             </div>
         </div>
-    </div>
-
-    <div id="extras-container">
-        <button type="button" class="btn btn-add" onclick="agregarPersona()">+ AÑADIR ACOMPAÑANTE</button>
-        
-        <div style="text-align: left; margin-bottom: 20px;">
-            <p style="font-weight: 600; font-size: 0.9rem; color: #555;">¿Necesitáis autobús?</p>
-            <select id="transporteField">
-                <option value="" disabled selected>Selecciona una opción</option>
-                <option value="Arahal">Bus desde Arahal</option>
-                <option value="Utrera">Bus desde Utrera</option>
-                <option value="No">No necesito bus</option>
-            </select>
-        </div>
-    </div>
-    
-    <button type="submit" id="submitBtn" class="btn" style="width:100%">ENVIAR RESPUESTA</button>
-</form>
-            
-            <p id="mensajeFinal" class="hidden" style="color: var(--dorado); font-weight: bold; font-size: 1.2rem; margin-top: 20px;">
-                <br>Hemos recibido vuestra respuesta correctamente.
-            </p>
-        </div>
-    </section>
+    </main>
 
     <script>
-        // 1. PEGA AQUÍ TU URL DE GOOGLE SCRIPT (LA QUE TERMINA EN /exec)
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbwUBO-Jh8vZA_Uepc5rJYWi-xA1M-DjhHg_yrnaS3HkjPt0FdlBPOKLwysHilEe0FT8wQ/exec';
+        const fileInput = document.getElementById('fileInput');
+        const fileCount = document.getElementById('file-count');
+        const uploadForm = document.getElementById('uploadForm');
 
-        function agregarPersona() {
-            const contenedor = document.getElementById('lista-invitados');
-            const nuevoBloque = document.createElement('div');
-            nuevoBloque.className = 'persona-block';
-            nuevoBloque.innerHTML = `
-                <button type="button" class="btn-eliminar" onclick="this.parentElement.remove()">✕ Quitar</button>
-                <p style="font-weight: 600; font-size: 0.9rem; color: var(--dorado); margin-bottom: 5px;">Acompañante:</p>
-                <input type="text" name="nombre" placeholder="Nombre y Apellidos" required>
-                <p style="font-weight: 600; font-size: 0.9rem; color: var(--dorado); margin-top: 10px;">Alergias o Intolerancias:</p>
-                <textarea name="alergias" placeholder="Indica si tiene o escribe 'No'" rows="2" required></textarea>
-            `;
-            contenedor.appendChild(nuevoBloque);
-        }
-
-       function mostrarFormulario(valor) {
-    document.getElementById('botones-iniciales').classList.add('hidden');
-    document.getElementById('weddingForm').classList.remove('hidden');
-    document.getElementById('formAsiste').value = valor;
-    
-    // Ocultamos la pregunta inicial siempre, ya que ya han pulsado un botón
-    document.getElementById('preguntaConfirmacion').classList.add('hidden');
-
-    const extras = document.getElementById('extras-container');
-    const busSelect = document.getElementById('transporteField');
-    const alergiasContenedores = document.querySelectorAll('.alergias-container');
-    const alergiasTextareas = document.getElementsByName('alergias');
-
-    if (valor === 'No') {
-        extras.classList.add('hidden');
-        alergiasContenedores.forEach(div => div.classList.add('hidden'));
-        alergiasTextareas.forEach(tx => tx.required = false);
-        busSelect.required = false;
-    } else {
-        extras.classList.remove('hidden');
-        alergiasContenedores.forEach(div => div.classList.remove('hidden'));
-        alergiasTextareas.forEach(tx => tx.required = true);
-        busSelect.required = true;
-    }
-}
-
-        document.getElementById('weddingForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            btn.disabled = true;
-            btn.innerText = "Registrando...";
-
-            const asiste = document.getElementById('formAsiste').value;
-            const transporte = document.getElementById('transporteField').value || 'No';
-            const nombres = document.getElementsByName('nombre');
-            const alergias = document.getElementsByName('alergias');
-
-            // Enviamos cada persona como una fila independiente esperando respuesta de Google
-            for (let i = 0; i < nombres.length; i++) {
-                const params = new URLSearchParams();
-                params.append('nombre', nombres[i].value);
-                params.append('asiste', asiste);
-                params.append('alergias', alergias[i].value);
-                params.append('transporte', transporte);
-                params.append('acompanantes', 'Individual');
-
-                try {
-                    await fetch(scriptURL + "?" + params.toString(), { 
-                        method: 'POST', 
-                        mode: 'no-cors' 
-                    });
-                } catch (err) {
-                    console.log("Error en envío individual");
-                }
+        fileInput.addEventListener('change', () => {
+            const num = fileInput.files.length;
+            if (num > 0) {
+                fileCount.innerText = `${num} archivos seleccionados`;
+                fileCount.style.color = "var(--dorado)";
+            } else {
+                fileCount.innerText = "Fotos o vídeos (máx. 10 de golpe)";
+                fileCount.style.color = "#888";
             }
-
-            document.getElementById('weddingForm').classList.add('hidden');
-            document.getElementById('mensajeFinal').classList.remove('hidden');
         });
 
-        // Cuenta atrás dinámica
-        // Cuenta atrás dinámica con Minutos y Segundos
-        function timer() {
-            const boda = new Date(2026, 4, 2, 13, 0).getTime(); // Mayo es mes 4 en JS
-            const ahora = new Date().getTime();
-            const diff = boda - ahora;
+        uploadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (fileInput.files.length === 0) return;
 
-            if (diff <= 0) {
-                document.getElementById("countdown").innerHTML = "¡ES HOY! 🥂";
-                return;
+            const btn = document.getElementById('btnSubir');
+            btn.disabled = true;
+            btn.innerText = "SUBIENDO...";
+
+            const formData = new FormData();
+            for (let file of fileInput.files) {
+                formData.append('file', file);
             }
 
-            // Cálculos matemáticos para cada unidad
-            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((diff % (1000 * 60)) / 1000);
-
-            // Formato visual: añadimos un 0 delante si el número es menor de 10
-            const minutos = m < 10 ? '0' + m : m;
-            const segundos = s < 10 ? '0' + s : s;
-
-            document.getElementById("countdown").innerHTML = 
-                `${d}d ${h}h ${minutos}m ${segundos}s`;
-        }
-
-        // Actualizamos cada 1 segundo (1000 milisegundos)
-        setInterval(timer, 1000); 
-        timer();
+            try {
+                const response = await fetch('/upload', { method: 'POST', body: formData });
+                if (response.ok) {
+                    uploadForm.classList.add('hidden');
+                    document.getElementById('msgOk').classList.remove('hidden');
+                } else {
+                    alert("Error al subir los archivos");
+                    btn.disabled = false;
+                    btn.innerText = "SUBIR AL ÁLBUM";
+                }
+            } catch (err) {
+                alert("Error de conexión con el servidor");
+                btn.disabled = false;
+                btn.innerText = "SUBIR AL ÁLBUM";
+            }
+        });
     </script>
 </body>
 </html>
-
-
 
 
 
