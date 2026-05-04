@@ -17,104 +17,61 @@
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body, html {
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            font-family: 'Montserrat', sans-serif;
-            color: var(--oscuro);
+            height: 100%; width: 100%; overflow: hidden;
+            font-family: 'Montserrat', sans-serif; color: var(--oscuro);
         }
 
         .fondo-fijo {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('fondo.jpg');
-            background-size: cover;
-            background-position: center;
-            z-index: -1;
+            background-size: cover; background-position: center; z-index: -1;
         }
 
         main {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            text-align: center;
+            height: 100%; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; padding: 20px; text-align: center;
         }
 
         header { margin-bottom: 25px; }
-
         h1 { font-family: 'Great Vibes', cursive; font-size: 3.2rem; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); line-height: 1; }
-        .slogan { color: white; font-size: 0.9rem; font-style: italic; margin-top: 10px; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); max-width: 280px; }
+        .slogan { color: white; font-size: 0.9rem; font-style: italic; margin-top: 10px; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
         
         .card {
-            background: var(--blanco);
-            padding: 25px 20px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            width: 100%;
-            max-width: 350px;
+            background: var(--blanco); padding: 25px 20px; border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3); width: 100%; max-width: 350px;
         }
 
         h3 { font-family: 'Great Vibes', cursive; font-size: 2.2rem; color: var(--dorado); margin-bottom: 5px; }
         p.instruccion { font-size: 0.75rem; color: #666; margin-bottom: 15px; }
 
         .btn {
-            background: var(--dorado);
-            color: white;
-            padding: 14px;
-            border-radius: 25px;
-            border: none;
-            font-size: 0.8rem;
-            font-weight: 600;
-            display: block;
-            width: 100%;
-            cursor: pointer;
-            transition: transform 0.2s;
+            background: var(--dorado); color: white; padding: 14px; border-radius: 25px;
+            border: none; font-size: 0.8rem; font-weight: 600; display: block;
+            width: 100%; cursor: pointer; transition: transform 0.2s;
         }
-
+        .btn:active { transform: scale(0.98); }
         .btn:disabled { background: #ccc; }
 
         .btn-reset {
-            background: transparent;
-            border: 1px solid var(--dorado);
-            color: var(--dorado);
-            margin-top: 15px;
-            padding: 10px 20px;
-            width: auto;
-            margin-left: auto;
-            margin-right: auto;
+            background: transparent; border: 1px solid var(--dorado); color: var(--dorado);
+            margin-top: 15px; padding: 10px 20px; width: auto; margin-inline: auto;
         }
 
         .upload-area {
-            border: 1.5px dashed var(--dorado);
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            background: #fdfaf3;
+            border: 1.5px dashed var(--dorado); padding: 20px; border-radius: 12px;
+            margin-bottom: 15px; background: #fdfaf3; cursor: pointer;
         }
 
         .upload-label { font-size: 0.75rem; font-weight: 600; color: var(--dorado); }
         #file-count { font-size: 0.65rem; color: #888; margin-top: 6px; }
 
         .aviso-tamaño {
-            margin-top: 12px;
-            padding: 10px;
-            background-color: var(--alerta-bg);
-            border-radius: 8px;
-            border: 1px solid #ffe0b3;
-            text-align: left;
+            margin-top: 12px; padding: 10px; background-color: var(--alerta-bg);
+            border-radius: 8px; border: 1px solid #ffe0b3; text-align: left;
         }
+        .aviso-tamaño p { font-size: 0.62rem; color: var(--alerta); line-height: 1.3; }
 
-        .aviso-tamaño p {
-            font-size: 0.65rem;
-            color: var(--alerta);
-            line-height: 1.3;
-        }
-
-        /* Estilos Barra de Progreso */
+        /* Barra de Progreso */
         .progress-wrapper { margin-top: 15px; }
         .progress-bar-bg { width: 100%; background-color: #eee; border-radius: 10px; height: 10px; overflow: hidden; }
         .progress-bar-fill { width: 0%; height: 100%; background-color: var(--dorado); transition: width 0.3s; }
@@ -142,7 +99,7 @@
                     <div id="file-count">Fotos o vídeos (máx. 10 de golpe)</div>
                     
                     <div class="aviso-tamaño">
-                        <p>⚠️ <strong>Consejo:</strong> Google limita las subidas a 50MB. Si un vídeo es muy pesado, súbelo solo o acórtalo un poco.</p>
+                        <p>⚠️ <strong>Nota:</strong> Google limita las subidas a 50MB. Si un vídeo es muy pesado, súbelo solo o por trozos.</p>
                     </div>
 
                     <input type="file" id="fileInput" name="file" multiple accept="image/*,video/*" class="hidden">
@@ -150,7 +107,6 @@
                 <button type="submit" id="btnSubir" class="btn">SUBIR AL ÁLBUM</button>
             </form>
 
-            <!-- CONTENEDOR PROGRESO -->
             <div id="progressContainer" class="progress-wrapper hidden">
                 <div class="progress-bar-bg">
                     <div id="progressBar" class="progress-bar-fill"></div>
@@ -158,11 +114,8 @@
                 <p id="progressText">Preparando archivos...</p>
             </div>
 
-            <!-- MENSAJE ÉXITO -->
             <div id="msgOk" class="hidden">
-                <p style="color: var(--dorado); font-weight: bold; margin-top: 10px; font-size: 1rem;">
-                    ¡Enviado con éxito! ✨
-                </p>
+                <p style="color: var(--dorado); font-weight: bold; margin-top: 10px; font-size: 1rem;">¡Recibido con éxito! ✨</p>
                 <p style="font-size: 0.7rem; color: #666; margin-top: 5px;">Gracias por compartir este momento.</p>
                 <button type="button" onclick="resetearFormulario()" class="btn btn-reset">SUBIR MÁS</button>
             </div>
@@ -170,8 +123,7 @@
     </main>
 
     <script>
-        // --- CONFIGURACIÓN ---
-        // SUSTITUYE ESTA URL POR LA TUYA DE GOOGLE (TERMINADA EN /exec)
+        // 1. PEGA AQUÍ TU URL DE GOOGLE (TERMINADA EN /exec)
         const scriptURL = 'TU_URL_DE_GOOGLE_AQUI'; 
 
         const fileInput = document.getElementById('fileInput');
@@ -183,19 +135,12 @@
         const progressText = document.getElementById('progressText');
         const msgOk = document.getElementById('msgOk');
 
-        // Mostrar contador de archivos
         fileInput.addEventListener('change', () => {
             const num = fileInput.files.length;
-            if (num > 0) {
-                fileCount.innerText = `${num} archivos seleccionados`;
-                fileCount.style.color = "var(--dorado)";
-            } else {
-                fileCount.innerText = "Fotos o vídeos (máx. 10 de golpe)";
-                fileCount.style.color = "#888";
-            }
+            fileCount.innerText = num > 0 ? `${num} archivos seleccionados` : "Fotos o vídeos (máx. 10 de golpe)";
+            fileCount.style.color = num > 0 ? "var(--dorado)" : "#888";
         });
 
-        // Proceso de subida
         uploadForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const files = fileInput.files;
@@ -226,11 +171,9 @@
                         });
 
                         subidasFinalizadas++;
-                        
-                        // Actualizar barra
                         const porcentaje = (subidasFinalizadas / files.length) * 100;
                         progressBar.style.width = porcentaje + '%';
-                        progressText.innerText = `Enviando ${subidasFinalizadas} de ${files.length}...`;
+                        progressText.innerText = `Subiendo ${subidasFinalizadas} de ${files.length}...`;
 
                         if (subidasFinalizadas === files.length) {
                             setTimeout(() => {
@@ -240,8 +183,7 @@
                             }, 800);
                         }
                     } catch (err) {
-                        console.error(err);
-                        alert("Error de conexión. Si el archivo es muy grande, intenta subirlo solo.");
+                        alert("Error de conexión. Intenta de nuevo.");
                         resetearFormulario();
                     }
                 };
@@ -255,11 +197,9 @@
             fileCount.style.color = "#888";
             uploadForm.classList.remove('hidden');
             btn.classList.remove('hidden');
-            btn.disabled = false;
             msgOk.classList.add('hidden');
             progressContainer.classList.add('hidden');
             progressBar.style.width = '0%';
-            progressText.innerText = "Preparando archivos...";
         }
     </script>
 </body>
