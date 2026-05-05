@@ -21,53 +21,70 @@
     <main>
         <h1>Bea y Gabri</h1>
         <div class="card">
-            <h3 style="font-family: 'Great Vibes'; font-size: 2.2rem; color: var(--dorado);">Subir fotos y videos</h3>
-            <p style="font-size: 0.8rem; margin-bottom: 20px; color: #666;">Compartid vuestros mejores momentos con nosotros</p>
-            
-            <button id="upload_widget" class="btn">📸 SELECCIONAR FOTOS/VÍDEOS</button>
-            
-            <p style="font-size: 0.6rem; margin-top: 15px; color: #999;">Sin límite de tamaño. Podéis subir varios a la vez.</p>
-        </div>
-    </main>
+    <h3 style="font-family: 'Great Vibes'; font-size: 2.2rem; color: var(--dorado);">Subir Fotos</h3>
+    <p style="font-size: 0.75rem; margin-bottom: 15px; color: #666;">Compartid vuestros momentos con nosotros</p>
+    
+    <button id="upload_widget" class="btn">📸 SELECCIONAR MULTIMEDIA</button>
+    
+    <!-- Aviso técnico basado en tus límites de Cloudinary -->
+    <div style="margin-top: 15px; padding: 10px; background-color: #fdfaf3; border-radius: 12px; border: 1px solid #ffe0b3; text-align: left;">
+        <p style="font-size: 0.65rem; color: #856404; margin-bottom: 4px;"><strong>Límites del sistema:</strong></p>
+        <p style="font-size: 0.62rem; color: #856404;">🖼️ Fotos: Máximo <b>10 MB</b></p>
+        <p style="font-size: 0.62rem; color: #856404;">🎥 Vídeos: Máximo <b>100 MB</b></p>
+        <p style="font-size: 0.58rem; color: #a0812b; margin-top: 5px; font-style: italic;">*Si el archivo es mayor, no se podrá subir.</p>
+    </div>
+</div>
 
-    <script type="text/javascript">  
-        const myWidget = cloudinary.createUploadWidget({
+<script type="text/javascript">  
+const myWidget = cloudinary.createUploadWidget({
             cloudName: 'duphsbktk', 
             uploadPreset: 'boda_preset',
-            sources: ['local', 'camera'], // Solo permitir archivos locales o cámara
-            language: 'es',
-            text: {
-                es: {
-                    menu: { files: "Mis archivos" },
-                    local: { browse: "Buscar", dd_separator: "o", drop_title: "Suelta aquí" }
-                }
-            },
-            styles: {
-                palette: {
-                    window: "#FFFFFF",
-                    windowBorder: "#b59a5d",
-                    tabIcon: "#b59a5d",
-                    menuIcons: "#5A616A",
-                    textDark: "#000000",
-                    textLight: "#FFFFFF",
-                    link: "#b59a5d",
-                    action: "#b59a5d",
-                    inactiveTabIcon: "#b59a5d",
-                    error: "#F44235",
-                    inProgress: "#b59a5d",
-                    complete: "#20B832",
-                    sourceBg: "#E4EBF1"
+        sources: ['local'], // Solo galería y archivos
+        language: 'es',
+        // LIMITES ESTRICTOS SEGÚN TU PLAN
+        maxFileSize: 100000000, // 100MB para vídeos
+        clientAllowedFormats: ['png', 'jpg', 'jpeg', 'mp4', 'mov'],
+        
+        // Personalización de mensajes y comportamiento
+        text: {
+            es: {
+                menu: { files: "Mis archivos" },
+                local: { 
+                    browse: "Elegir de la Galería", 
+                    dd_separator: "o", 
+                    drop_title: "Suelta aquí" 
+                },
+                queue: {
+                    title: "Cola de subida",
+                    title_uploading_with_cnt: "Subiendo {{cnt}} archivos",
+                    status_error: "Error: Supera el límite",
                 }
             }
-        }, (error, result) => { 
-            if (!error && result && result.event === "success") { 
-                console.log('¡Éxito! Imagen subida: ', result.info); 
+        },
+        styles: {
+            palette: {
+                window: "#FFFFFF",
+                windowBorder: "#b59a5d",
+                tabIcon: "#b59a5d",
+                textDark: "#000000",
+                textLight: "#FFFFFF",
+                link: "#b59a5d",
+                action: "#b59a5d",
+                inProgress: "#b59a5d",
+                complete: "#20B832",
             }
-        });
+        }
+    }, (error, result) => { 
+        // Si el usuario intenta subir algo de >10MB (foto) daría error interno,
+        // Cloudinary lo gestiona mostrando un aviso en el widget.
+        if (!error && result && result.event === "success") { 
+            console.log('Completado');
+        }
+    });
 
-        document.getElementById("upload_widget").addEventListener("click", function(){
-            myWidget.open();
-        }, false);
-    </script>
+    document.getElementById("upload_widget").addEventListener("click", function(){
+        myWidget.open();
+    }, false);
+</script>
 </body>
 </html>
